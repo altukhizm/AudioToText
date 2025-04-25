@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import speech_recognition as sr
 from pydub import AudioSegment
-import whisper
 import re
 
 # Title of the app
@@ -29,18 +28,10 @@ lang_code = "ar-SA" if language == "Arabic (ar-SA)" else "en-US"
 
 engine = st.sidebar.selectbox(
     "Select transcription engine:",
-    options=["Whisper (local)", "Google Web Speech API"]
+    options=["Google Web Speech API"]
 )
 
-# Add performance priority option for Whisper
-priority = None
-if engine == "Whisper (local)":
-    priority = st.sidebar.selectbox(
-        "Select performance priority:",
-        options=["Fast (small model)", "Balanced (medium model)", "Accurate (large model)"]
-    )
-
-st.sidebar.info("Note: Whisper is more accurate but slower. Google is faster but requires an internet connection.")
+st.sidebar.info("Note: Google Web Speech API is faster but requires an internet connection.")
 
 if uploaded_file is not None:
     st.sidebar.audio(uploaded_file, format="audio/m4a")
@@ -70,56 +61,13 @@ if uploaded_file is not None:
 
         progress_bar.progress(0)
 
-        if engine == "Whisper (local)":
-            info_message.info("Loading Whisper model...")
-            # Select model size based on priority
-            if priority == "Fast (small model)":
-                model = whisper.load_model("small")
-            elif priority == "Accurate (large model)":
-                model = whisper.load_model("large")
-            else:
-                model = whisper.load_model("medium")
-            progress_bar.progress(20)
-            success_message.success("Model loaded successfully ✅")
-            info_message.info("Transcribing audio...")
-            progress_bar.progress(50)
-            result = model.transcribe(output_audio_path, language=lang_code.split('-')[0])
-            text = result["text"]
-            progress_bar.progress(100)
+        info_message.info("Using Google Web Speech API...")
+        recognizer = sr.Recognizer()
+        with sr.AudioFile(output_audio_path) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_google(audio_data, language=lang_code)
 
-            def seconds_to_srt_time(seconds):
-                hours = int(seconds // 3600)
-                minutes = int((seconds % 3600) // 60)
-                secs = int(seconds % 60)
-                millis = int((seconds - int(seconds)) * 1000)
-                return f"{hours:02}:{minutes:02}:{secs:02},{millis:03}"
-
-            srt_content = ""
-            srt_index = 1
-            for segment in result['segments']:
-                start = seconds_to_srt_time(segment['start'])
-                end = seconds_to_srt_time(segment['end'])
-                text_seg = segment['text'].strip()
-                # Split text into sentences using punctuation
-                sentences = re.split(r'(?<=[.!?]) +', text_seg)
-                segment_duration = (segment['end'] - segment['start']) / max(len(sentences), 1)
-                for i, sentence in enumerate(sentences):
-                    seg_start = seconds_to_srt_time(segment['start'] + i * segment_duration)
-                    seg_end = seconds_to_srt_time(segment['start'] + (i + 1) * segment_duration)
-                    srt_content += f"{srt_index}\n{seg_start} --> {seg_end}\n{sentence.strip()}\n\n"
-                    srt_index += 1
-
-            st.download_button("Download SRT File", srt_content, file_name="transcription.srt")
-            st.subheader("Preview SRT Content:")
-            st.text_area("SRT Preview", srt_content, height=300)
-
-        else:
-            info_message.info("Using Google Web Speech API...")
-            recognizer = sr.Recognizer()
-            with sr.AudioFile(output_audio_path) as source:
-                audio_data = recognizer.record(source)
-                text = recognizer.recognize_google(audio_data, language=lang_code)
-
+        progress_bar.progress(100)
         success_message.success("Transcription complete!")
 
         edited_text = st.text_area("Edit the extracted text:", text, height=400)
