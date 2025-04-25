@@ -32,17 +32,13 @@ language = st.selectbox(
 )
 lang_code = "ar-SA" if language == "Arabic (ar-SA)" else "en-US"
 
-engine = st.selectbox(
-    "Select transcription engine:",
-    options=["Google Web Speech API"]
-)
-
+st.markdown("🔎 **Transcription Engine:** Google Web Speech API (Auto-selected)")
 st.sidebar.info("Note: Google Web Speech API is faster but requires an internet connection.")
 
 if uploaded_file is not None:
     st.sidebar.audio(uploaded_file)
 
-    if st.sidebar.button("Start Transcription"):
+    if st.button("Start Transcription"):
         # Placeholders
         info_message = st.empty()
         success_message = st.empty()
