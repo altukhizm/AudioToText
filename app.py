@@ -4,8 +4,16 @@ import speech_recognition as sr
 from pydub import AudioSegment
 import re
 
+
+st.set_page_config(
+    page_title= 'Audio to Text Transcription App',
+    page_icon=' 🎙️ ',
+    layout="wide",
+    base='light')
+
 # Title of the app
 st.title("Audio to Text Transcription App")
+
 st.sidebar.title("About This App")
 st.sidebar.markdown("""
 **Audio to Text Transcription App**  
