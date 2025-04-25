@@ -1,6 +1,6 @@
 [theme]
 primaryColor = "#2a4ebb"         
-base = "#light"    
+base = "light"    
 secondaryBackgroundColor = "#F0F2F6"  
 textColor = "#272931"         
 [server]
@@ -13,4 +13,4 @@ toolbarMode = "minimal"
 
 [app]
 title = "Audio to Text Transcription App 🎙️"
-favicon = "https://cdn-icons-png.flaticon.com/512/2927/2927122.png"   # أيقونة مايكروفون جميلة
+favicon = "https://cdn-icons-png.flaticon.com/512/2927/2927122.png"  
