@@ -10,7 +10,6 @@ st.set_page_config(
 )
 
 # Title of the app
-st.image("/Audio Convert Icon.png", width=100)
 st.title("Audio to Text Transcription App")
 
 st.sidebar.title("About This App")
