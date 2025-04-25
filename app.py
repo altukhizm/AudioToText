@@ -18,15 +18,15 @@ Passionate about AI, data science, and building intelligent applications. 🚀
 st.sidebar.markdown("---")
 
 # File uploader
-uploaded_file = st.sidebar.file_uploader("Upload your audio file (m4a, wav, mp3)", type=["m4a", "wav", "mp3"])
+uploaded_file = st.file_uploader("Upload your audio file (m4a, wav, mp3)", type=["m4a", "wav", "mp3"])
 
-language = st.sidebar.selectbox(
+language = st.selectbox(
     "Select transcription language:",
     options=["Arabic (ar-SA)", "English (en-US)"]
 )
 lang_code = "ar-SA" if language == "Arabic (ar-SA)" else "en-US"
 
-engine = st.sidebar.selectbox(
+engine = st.selectbox(
     "Select transcription engine:",
     options=["Google Web Speech API"]
 )
