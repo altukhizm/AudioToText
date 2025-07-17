@@ -1,7 +1,4 @@
-Of course! 🔥
-Here’s a professional, clean, and simple README.md file you can use for deploying your app on Streamlit (or anywhere else like GitHub, Hugging Face, etc.):
 
-⸻
 
 📄 README.md
 
