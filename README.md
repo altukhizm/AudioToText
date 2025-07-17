@@ -1,4 +1,4 @@
-
+<img width="1675" height="577" alt="image" src="https://github.com/user-attachments/assets/901f3767-36e7-49a4-b221-61abf2ce6df3" />
 
 📄 README.md
 
@@ -12,6 +12,8 @@ This web app allows you to easily transcribe audio files in Arabic and English u
 You can upload audio files (`.m4a`, `.wav`, `.mp3`), transcribe them, edit the extracted text, download the text file, and even export a timed subtitle file (`.srt`).
 
 You can access the app through: [https://zaidaudiototext.streamlit.app/](https://zaidaudiototext.streamlit.app/)
+
+Note: if you find the app in sleep mode you can wake it up :)
 ---
 
 ## 🔥 Features
